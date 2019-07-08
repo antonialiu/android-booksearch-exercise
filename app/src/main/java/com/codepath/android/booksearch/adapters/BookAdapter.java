@@ -1,6 +1,7 @@
 package com.codepath.android.booksearch.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,11 +10,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.codepath.android.booksearch.GlideApp;
-import com.codepath.android.booksearch.MyAppGlideModule;
 import com.codepath.android.booksearch.R;
+import com.codepath.android.booksearch.activities.BookDetailActivity;
 import com.codepath.android.booksearch.models.Book;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,9 +35,20 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
             // to access the context from any ViewHolder instance.
             super(itemView);
 
-            ivCover = (ImageView)itemView.findViewById(R.id.ivBookCover);
-            tvTitle = (TextView)itemView.findViewById(R.id.tvTitle);
-            tvAuthor = (TextView)itemView.findViewById(R.id.tvAuthor);
+            ivCover = (ImageView) itemView.findViewById(R.id.ivBookCover);
+            tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
+            tvAuthor = (TextView) itemView.findViewById(R.id.tvAuthor);
+        }
+
+        public void onClick(View view) {
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                Book book = mBooks.get(position);
+                Intent intent = new Intent(mContext, BookDetailActivity.class);
+                intent.putExtra(Book.class.getSimpleName(), Parcels.wrap(book));
+                mContext.startActivity(intent);
+            }
+
         }
     }
 
